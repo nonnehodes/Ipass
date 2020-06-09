@@ -3,4 +3,4 @@ Dit is de repository voor het ipass project 'Floorball voorspellingen'. Met de a
 
 # De Applicatie
 De applicatie is gemaakt in python's tkinter
-![Alt text](relative/path/to/img.jpg?raw=true "De applicatie")
+![Alt text](https://github.com/nonnehodes/Ipass/blob/master/Floorball%20Voorspellingen.PNG?raw=true "De applicatie")
