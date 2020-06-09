@@ -1,7 +1,14 @@
 from tkinter import *
+import webbrowser
 
 root = Tk()
 root.title('Floorball voorspelling')
+
+# ------------------------------------------------------------------------------------------------------------------#
+# kleine functies #
+
+def openWebsite(url):
+    webbrowser.open(url)
 
 # ------------------------------------------------------------------------------------------------------------------#
 # Achtergrond #
@@ -73,12 +80,20 @@ button1.place(x=220, y=230)
 button2 = Button(master=root, text='NeFUB site', bg="#b3cce6", fg="#004080")
 button2.config(font=("Calibri light", 10))
 button2.place(x=738, y=195)
+button2.bind("<Button-1>", lambda e: openWebsite("https://nefub.nl/floorball/"))
 
 button3 = Button(master=root, text='HU site', bg="#b3cce6", fg="#004080")
 button3.config(font=("Calibri light", 10))
 button3.place(x=747, y=383)
+button3.bind("<Button-1>", lambda e: openWebsite("https://www.hu.nl/"))
 
 # ------------------------------------------------------------------------------------------------------------------#
 
-
 root.mainloop()
+
+# ------------------------------------------------------------------------------------------------------------------#
+# Bronnen #
+
+# https://gist.github.com/RandomResourceWeb/93e887facdb98937ab5d260d1a0df270
+# https://stackoverflow.com/questions/23482748/how-to-create-a-hyperlink-with-a-label-in-tkinter
+# https://canvas.hu.nl/courses/12972/assignments/43477?module_item_id=162145
