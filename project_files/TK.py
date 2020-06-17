@@ -31,61 +31,77 @@ frame2.place(relx=0.2, rely=0.65, relwidth=0.5, relheight=0.25)
 # ------------------------------------------------------------------------------------------------------------------#
 # Labels #
 
-label1 = Label(master=frame1, text='Thuis team', height=2, bg="#f5faff", fg="#004080")
-label1.config(font=("Britannic bold", 20))
-label1.place(x=20, y=0)
+thuisClub = Label(master=frame1, text='Thuis Club', height=2, bg="#f5faff", fg="#004080")
+thuisClub.config(font=("Britannic bold", 20))
+thuisClub.place(x=20, y=0)
 
-label2 = Label(master=frame1, text='Uit team', height=2, bg="#f5faff", fg="#004080")
-label2.config(font=("Britannic bold", 20))
-label2.place(x=405, y=0)
+thuisTeam = Label(master=frame1, text='Team', height=2, bg="#f5faff", fg="#004080")
+thuisTeam.config(font=("Britannic bold", 20))
+thuisTeam.place(x=185, y=0)
 
-label3 = Label(master=frame1, text='Scheidsrechter 1', height=2, bg="#f5faff", fg="#004080")
-label3.config(font=("Britannic bold", 17))
-label3.place(x=20, y=110)
+uitClub = Label(master=frame1, text='Uit Club', height=2, bg="#f5faff", fg="#004080")
+uitClub.config(font=("Britannic bold", 20))
+uitClub.place(x=285, y=0)
 
-label4 = Label(master=frame1, text='Scheidsrechter 2', height=2, bg="#f5faff", fg="#004080")
-label4.config(font=("Britannic bold", 17))
-label4.place(x=335, y=110)
+uitTeam = Label(master=frame1, text='Team', height=2, bg="#f5faff", fg="#004080")
+uitTeam.config(font=("Britannic bold", 20))
+uitTeam.place(x=450, y=0)
 
-label5 = Label(master=frame2, text='Uitslag', height=1, bg="#f5faff", fg="#004080")
-label5.config(font=("Britannic bold", 25))
-label5.pack()
+scheids1 = Label(master=frame1, text='Scheidsrechter 1', height=2, bg="#f5faff", fg="#004080")
+scheids1.config(font=("Britannic bold", 17))
+scheids1.place(x=20, y=110)
+
+scheids2 = Label(master=frame1, text='Scheidsrechter 2', height=2, bg="#f5faff", fg="#004080")
+scheids2.config(font=("Britannic bold", 17))
+scheids2.place(x=335, y=110)
+
+uitslag = Label(master=frame2, text='Uitslag', height=1, bg="#f5faff", fg="#004080")
+uitslag.config(font=("Britannic bold", 25))
+uitslag.pack()
 
 # ------------------------------------------------------------------------------------------------------------------#
 # entry's #
 
-entry1 = Entry(master=frame1)
-entry1.config(font=("Calibri", 15))
-entry1.place(x=20, y=60, height=40, width=230)
+inputThuisClub = Entry(master=frame1)
+inputThuisClub.config(font=("Calibri", 15))
+inputThuisClub.place(x=20, y=60, height=40, width=150)
 
-entry2 = Entry(master=frame1)
-entry2.config(font=("Calibri", 15))
-entry2.place(x=285, y=60, height=40, width=230)
+inputThuisTeam = Entry(master=frame1)
+inputThuisTeam.config(font=("Calibri", 15))
+inputThuisTeam.place(x=185, y=60, height=40, width=70)
 
-entry3 = Entry(master=frame1)
-entry3.config(font=("Calibri", 15))
-entry3.place(x=20, y=160, height=40, width=230)
+inputUitClub = Entry(master=frame1)
+inputUitClub.config(font=("Calibri", 15))
+inputUitClub.place(x=285, y=60, height=40, width=150)
 
-entry4 = Entry(master=frame1)
-entry4.config(font=("Calibri", 15))
-entry4.place(x=285, y=160, height=40, width=230)
+inputUitTeam = Entry(master=frame1)
+inputUitTeam.config(font=("Calibri", 15))
+inputUitTeam.place(x=450, y=60, height=40, width=70)
+
+inputScheids1 = Entry(master=frame1)
+inputScheids1.config(font=("Calibri", 15))
+inputScheids1.place(x=20, y=160, height=40, width=235)
+
+inputScheids2 = Entry(master=frame1)
+inputScheids2.config(font=("Calibri", 15))
+inputScheids2.place(x=285, y=160, height=40, width=235)
 
 # ------------------------------------------------------------------------------------------------------------------#
 # buttons #
 
-button1 = Button(master=frame1, text='Voorspel', bg="#f5faff", fg="#004080")
-button1.config(font=("Britannic bold", 15))
-button1.place(x=220, y=230)
+voorspelKnop = Button(master=frame1, text='Voorspel', bg="#f5faff", fg="#004080")
+voorspelKnop.config(font=("Britannic bold", 15))
+voorspelKnop.place(x=220, y=230)
 
-button2 = Button(master=root, text='NeFUB site', bg="#b3cce6", fg="#004080")
-button2.config(font=("Calibri light", 10))
-button2.place(x=738, y=195)
-button2.bind("<Button-1>", lambda e: openWebsite("https://nefub.nl/floorball/"))
+NeFUBKnop = Button(master=root, text='NeFUB site', bg="#b3cce6", fg="#004080")
+NeFUBKnop.config(font=("Calibri light", 10))
+NeFUBKnop.place(x=738, y=195)
+NeFUBKnop.bind("<Button-1>", lambda e: openWebsite("https://nefub.nl/floorball/"))
 
-button3 = Button(master=root, text='HU site', bg="#b3cce6", fg="#004080")
-button3.config(font=("Calibri light", 10))
-button3.place(x=747, y=383)
-button3.bind("<Button-1>", lambda e: openWebsite("https://www.hu.nl/"))
+HUKnop = Button(master=root, text='HU site', bg="#b3cce6", fg="#004080")
+HUKnop.config(font=("Calibri light", 10))
+HUKnop.place(x=747, y=383)
+HUKnop.bind("<Button-1>", lambda e: openWebsite("https://www.hu.nl/"))
 
 # ------------------------------------------------------------------------------------------------------------------#
 
