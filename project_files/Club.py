@@ -1,4 +1,4 @@
-from database.load_data import setup_connection
+from project_files.database.load_data import setup_connection
 
 class Club:
     def __init__(self, clubnaam):
@@ -30,4 +30,4 @@ class Club:
         return self.teams
 
 
-    
+print(Club('Sonics').get_teams())
