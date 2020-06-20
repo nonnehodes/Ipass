@@ -15,10 +15,10 @@ def get_club():
         club_lijst += row
     print(club_lijst)
 
-def get_team_score(team1, team2):
+def get_team_score(target_team, tegenstander):
     con = setup_connection()
     cur = con.cursor()
-    cur.execute("""SELECT datum, thuisteam, thuisscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (team1, team2))
+    cur.execute("""SELECT datum, thuisteam, thuisscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
     thuis_score = cur.fetchall()
     output = []
     for item in thuis_score:
@@ -29,7 +29,7 @@ def get_team_score(team1, team2):
         scores['score'] = item[2]
         output.append(scores)
 
-    cur.execute("""SELECT datum, uitteam, uitscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (team2, team1))
+    cur.execute("""SELECT datum, uitteam, uitscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (tegenstander, target_team))
     uit_score = cur.fetchall()
     for item in uit_score:
         scores = {}
