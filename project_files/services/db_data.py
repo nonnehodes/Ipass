@@ -13,11 +13,12 @@ def get_club():
     club_lijst = []
     for row in rows:
         club_lijst += row
-    print(club_lijst)
+    return club_lijst
 
 def get_team_score(target_team, tegenstander):
     con = setup_connection()
     cur = con.cursor()
+
     cur.execute("""SELECT datum, thuisteam, thuisscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
     thuis_score = cur.fetchall()
     output = []
@@ -45,3 +46,4 @@ def get_team_score(target_team, tegenstander):
     return df
 
 get_team_score("UFC Utrecht 1", "Sonics")
+get_club()

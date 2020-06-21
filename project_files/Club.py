@@ -1,33 +1,57 @@
 from project_files.database.load_data import setup_connection
+import project_files.services.db_data
 
 class Club:
     def __init__(self, clubnaam):
         self.clubnaam= clubnaam
         self.teams = self.get_team_names()
 
-    def get_team_names(self):
+    def team_lijst(self, lijst):
+        output = []
+        for item in lijst:
+            if not '29' in item[0]:
+                output.append(item[0])
+            else:
+                continue
+        return output
+
+    def get_team_names_voor_2011(self):
         conn = setup_connection()
         cur = conn.cursor()
-        cur.execute("""SELECT DISTINCT thuisteam FROM dames_competitie WHERE thuisclub = ?""", (self.clubnaam,))
-        thuis = []
-        for item in cur.fetchall():
-            if not '2' in item[0]:
-                thuis.append(item[0])
-            else:
-                continue
+        out_voor_2011 = []
 
-        cur.execute("""SELECT DISTINCT uitteam FROM dames_competitie WHERE uitclub = ?""", (self.clubnaam,))
-        uit = []
-        for item in cur.fetchall():
-            if not '2' in item[0]:
-                uit.append(item[0])
-            else:
-                continue
+        cur.execute("""SELECT DISTINCT thuisteam FROM dames_competitie WHERE thuisclub = ? AND genre = ?  AND seizoen<2011 AND poule_naam LIKE "%1e Divisie%" """, (self.clubnaam, 'competitie'))
+        out_voor_2011 += self.team_lijst(cur.fetchall())
 
-        return list(set(uit + thuis))
+        cur.execute("""SELECT DISTINCT uitteam FROM dames_competitie WHERE uitclub = ? AND genre = ? AND seizoen<2011 AND poule_naam LIKE "%1e Divisie%" """, (self.clubnaam, 'competitie'))
+        out_voor_2011 += self.team_lijst(cur.fetchall())
+
+        return list(set(out_voor_2011))
+
+    def get_team_names_na_2011(self):
+        conn = setup_connection()
+        cur = conn.cursor()
+        out_na_2001 = []
+
+        cur.execute("""SELECT DISTINCT thuisteam FROM dames_competitie WHERE thuisclub = ? AND genre = ? AND seizoen>=2011 AND poule_naam LIKE "%Eredivisie%" """, (self.clubnaam, 'competitie'))
+        out_na_2001 += self.team_lijst(cur.fetchall())
+
+        cur.execute("""SELECT DISTINCT uitteam FROM dames_competitie WHERE uitclub = ? AND genre = ? AND seizoen>=2011 AND poule_naam LIKE "%Eredivisie%" """, (self.clubnaam, 'competitie'))
+        out_na_2001 += self.team_lijst(cur.fetchall())
+
+        return list(set(out_na_2001))
+
+    def get_team_names(self):
+        totaal_out = []
+        totaal_out += self.get_team_names_voor_2011() + self.get_team_names_na_2011()
+
+        return list(set(totaal_out))
 
     def get_teams(self):
         return self.teams
 
 
-print(Club('Sonics').get_teams())
+temp = Club('HSK Floorball').get_teams()
+r = {}
+r['HSK Floorball'] = temp
+print(r)
