@@ -22,7 +22,7 @@ def get_club():
     club_lijst = []
     for row in rows:
         club_lijst += row
-    print(club_lijst)
+    return club_lijst
 
 def get_team_score(target_team, tegenstander):
     con = setup_connection()
@@ -52,5 +52,3 @@ def get_team_score(target_team, tegenstander):
     df['datum'] = pd.to_datetime(df.datum)
     df = df.sort_values(by='datum').reset_index()
     return df
-
-print(get_team_score("UFC Utrecht 1", "Sonics"))

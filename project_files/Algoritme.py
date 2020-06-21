@@ -48,8 +48,3 @@ class Algoritme():
         predict = poly1d(test)
         next_match = self.aantal_wedstrijden + 1
         print(predict(next_match))
-
-utrecht = get_team_score('UFC Utrecht 1', 'Sonics')
-sonic = get_team_score('Sonics', 'UFC Utrecht 1')
-a = Algoritme(utrecht)
-a.run()

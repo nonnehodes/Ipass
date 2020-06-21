@@ -1,10 +1,17 @@
-from project_files.database.load_data import setup_connection
-import project_files.services.db_data
+from project_files.database.load_data import setup_connection, get_club
 
 class Club:
     def __init__(self, clubnaam):
-        self.clubnaam= clubnaam
+        self.clubnaam = clubnaam
         self.teams = self.get_team_names()
+        self.super_teams = self.groepeer_superteam()
+
+
+    def __repr__(self):
+        return str(self.clubnaam)
+
+    def get_superteams(self):
+        return self.super_teams
 
     def team_lijst(self, lijst):
         output = []
@@ -50,5 +57,22 @@ class Club:
     def get_teams(self):
         return self.teams
 
+    def groepeer_superteam(self):
+        out = {}
+        teams = self.get_team_names()
+        out[self.clubnaam + '-1'] = teams
+        return out
 
-print(Club('UFC Utrecht').get_teams())
+
+
+def combi_data_club():
+    lijst = get_club()
+    out = []
+    for naam in lijst:
+        out.append(Club(naam))
+    return out
+
+print(combi_data_club())
+
+temp = Club('Sonics').get_superteams()
+print(temp)
