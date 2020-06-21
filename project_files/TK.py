@@ -1,17 +1,33 @@
 from tkinter import *
 import webbrowser
-from project_files.Club import Club
 from project_files.helpers import create_superteams_list, create_club_objects
 from project_files.database.load_data import get_clubnames
 
 root = Tk()
 root.title('Floorball voorspelling')
 
+thuisteam = ''
+uitteam = ''
 # ------------------------------------------------------------------------------------------------------------------#
 # kleine functies #
 
 def openWebsite(url):
     webbrowser.open(url)
+
+def set_thuisteam(value):
+    global thuisteam
+    thuisteam = value
+
+def set_uittteam(value):
+    global uitteam
+    uitteam = value
+
+def predictScores():
+    global thuisteam
+    global uitteam
+    print(thuisteam)
+    print(uitteam)
+
 
 # ------------------------------------------------------------------------------------------------------------------#
 # Achtergrond #
@@ -41,7 +57,7 @@ uitslag.pack()
 # ------------------------------------------------------------------------------------------------------------------#
 # buttons #
 
-voorspelKnop = Button(master=frame1, text='Voorspel', bg="#f5faff", fg="#004080")
+voorspelKnop = Button(master=frame1, text='Voorspel', bg="#f5faff", fg="#004080", command=predictScores)
 voorspelKnop.config(font=("Britannic bold", 20))
 voorspelKnop.place(x=205, y=220)
 
@@ -63,13 +79,13 @@ scheidsLijst = ["1", "2", "3", "4"]
 
 variableThuisTeam = StringVar(frame1)
 variableThuisTeam.set("Thuis team")
-optiesThuisTeam = OptionMenu(frame1, variableThuisTeam, *teamLijst)
+optiesThuisTeam = OptionMenu(frame1, variableThuisTeam, *teamLijst, command=set_thuisteam)
 optiesThuisTeam.config(font=("Britannic bold", 30), bg="#f5faff", fg="#004080")
 optiesThuisTeam.place(x=10, y=20, height=70, width=245)
 
 variableUitTeam = StringVar(frame1)
 variableUitTeam.set("Uit team")
-optiesUitTeam = OptionMenu(frame1, variableUitTeam, *teamLijst)
+optiesUitTeam = OptionMenu(frame1, variableUitTeam, *teamLijst, command=set_uittteam)
 optiesUitTeam.config(font=("Britannic bold", 30), bg="#f5faff", fg="#004080")
 optiesUitTeam.place(x=280, y=20, height=70, width=245)
 

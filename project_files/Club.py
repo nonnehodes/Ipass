@@ -7,7 +7,6 @@ class Club:
         self.teams = self.get_team_names()
         self.super_teams = self.groepeer_superteam()
 
-
     def __repr__(self):
         return str(self.clubnaam)
 
