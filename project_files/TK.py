@@ -1,5 +1,8 @@
 from tkinter import *
 import webbrowser
+from project_files.Club import Club
+from project_files.helpers import create_superteams_list, create_club_objects
+from project_files.database.load_data import get_clubnames
 
 root = Tk()
 root.title('Floorball voorspelling')
@@ -54,7 +57,8 @@ HUKnop.bind("<Button-1>", lambda e: openWebsite("https://www.hu.nl/"))
 
 # ------------------------------------------------------------------------------------------------------------------#
 # optie menu's' #
-teamLijst = ["utrecht 1", "utrecht 2", "Sonics"]
+
+teamLijst = create_superteams_list(create_club_objects(get_clubnames()))
 scheidsLijst = ["1", "2", "3", "4"]
 
 variableThuisTeam = StringVar(frame1)
