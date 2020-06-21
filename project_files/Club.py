@@ -51,7 +51,4 @@ class Club:
         return self.teams
 
 
-temp = Club('HSK Floorball').get_teams()
-r = {}
-r['HSK Floorball'] = temp
-print(r)
+print(Club('UFC Utrecht').get_teams())

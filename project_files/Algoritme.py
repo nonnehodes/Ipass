@@ -1,35 +1,55 @@
+from scipy import linspace, polyval, polyfit, sqrt, stats, poly1d
+from matplotlib.pyplot import plot, title, show, legend
+from project_files.database.load_data import get_team_score
+
+
 class Algoritme():
-    from scipy import linspace, polyval, polyfit, sqrt, stats, randn
-    from matplotlib.pyplot import plot, title, show, legend
+    def __init__(self, team_scores_df):
+        self.scores = team_scores_df.score
+        self.target_team = team_scores_df.team[0]
+        self.aantal_wedstrijden = len(team_scores_df)
 
-    agents_thuis = [1,1,1,1,1]
-    agents_uit = [1,1,1,11,1]
-    sonic_thuis = [1,3,2,7,4]
-    sonic_uit = [3,5,2,1,0]
-    n=10 # aantal uitslagen
-    t = linspace(0,9,n) # aantal uitslagen om er een lijn van te maken
-    xn = agents_uit + agents_thuis
+    def run(self):
+        # Algoritme van internet
+        n = self.aantal_wedstrijden
+        t = linspace(0, n, n)
+        xn = self.scores
+        poly = 4
 
-    # Linear regressison -polyfit - polyfit can be used other orders polys
-    (ar, br) = polyfit(t, xn, 1)
-    xr = polyval([ar, br], t)
-    # compute the mean square error
-    err = sqrt(sum((xr - xn)**2)/n)
-    print('Linear regression using polyfit')
-    print('parameters: a=%.2f b=%.2f \nregression: a=%.2f b=%.2f, ms error= %.3f' % (a, b, ar, br, err))
-    print('\n')
+        # Linear regressison -polyfit - polyfit can be used other orders polys
+        model = polyfit(t, xn, 1)
+        (ar, br) = model
 
+        # Polynomial regression to th n-th order
+        test = polyfit(t, xn, poly)
+        x = polyval(test, t)
 
-    # Linear regression using stats.linregress
-    (a_s, b_s, r, tt, stderr) = stats.linregress(t, xn)
-    print('Linear regression using stats.linregress')
-    print('parameters: a=%.2f b=%.2f \nregression: a=%.2f b=%.2f, std error= %.3f' % (a,b,a_s,b_s,stderr))
-    print('\n')
+        xr = polyval([ar, br], t)
+        # compute the mean square error
+        err = sqrt(sum((xr - xn) ** 2) / n)
+        print('Linear regression using polyfit')
+        print('regression: a=%.2f b=%.2f, ms error= %.3f' % (ar, br, err))
+        print('\n')
 
-    # matplotlib ploting
-    title('Linear Regression Example')
-    # plot(t, x,'g.--')
-    plot(t, xn, 'k.')
-    plot(t, xr, 'r.-')
-    legend(['scores','regression'])
-    show();
+        # Linear regression using stats.linregress
+        (a_s, b_s, r, tt, stderr) = stats.linregress(t, xn)
+        print('Linear regression using stats.linregress')
+        print('regression: a=%.2f b=%.2f, std error= %.3f' % (a_s, b_s, stderr))
+        print('\n')
+
+        # matplotlib ploting
+        title('Linear Regression Example')
+        plot(t, x,'g.--')
+        plot(t, xn, 'k.')
+        plot(t, xr, 'r.-')
+        legend(['3-poly', 'scores', 'linregress'])
+        show()
+
+        predict = poly1d(test)
+        next_match = self.aantal_wedstrijden + 1
+        print(predict(next_match))
+
+utrecht = get_team_score('UFC Utrecht 1', 'Sonics')
+sonic = get_team_score('Sonics', 'UFC Utrecht 1')
+a = Algoritme(utrecht)
+a.run()
