@@ -10,6 +10,9 @@ class Club:
     def __repr__(self):
         return str(self.clubnaam)
 
+    def get_clubnaam(self):
+        return self.clubnaam
+
     def get_superteams(self):
         return self.super_teams
 
@@ -26,7 +29,7 @@ class Club:
         team_names = self.get_team_names()
         for team_name in team_names:
             if "2" in team_name:
-                out[self.clubnaam + '-2'].append(team_name)
+                out[self.clubnaam + ' 2'].append(team_name)
             else:
-                out[self.clubnaam + '-1'].append(team_name)
+                out[self.clubnaam + ' 1'].append(team_name)
         return out

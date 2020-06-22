@@ -1,7 +1,9 @@
 from tkinter import *
 import webbrowser
+
+from project_files.Algoritme import Algoritme
 from project_files.helpers import create_superteams_list, create_club_objects
-from project_files.database.load_data import get_clubnames
+from project_files.database.load_data import get_clubnames, get_team_score
 
 root = Tk()
 root.title('Floorball voorspelling')
@@ -25,9 +27,28 @@ def set_uittteam(value):
 def predictScores():
     global thuisteam
     global uitteam
-    print(thuisteam)
-    print(uitteam)
 
+    thuis_teams_lijst = []
+    uit_teams_lijst = []
+    for club in clubs:
+        if club.get_clubnaam() in thuisteam:
+            thuis_teams_lijst = club.get_superteams()[thuisteam]
+            print(thuisteam)
+            print(thuis_teams_lijst)
+
+        if club.get_clubnaam() in uitteam:
+            uit_teams_lijst = club.get_superteams()[uitteam]
+            print(uitteam)
+            print(uit_teams_lijst)
+
+    thuis_scores_df = get_team_score(thuis_teams_lijst, uit_teams_lijst)
+    uit_scores_df = get_team_score(uit_teams_lijst, thuis_teams_lijst)
+    thuis_predict = Algoritme(thuis_scores_df).run()
+    uit_predict = Algoritme(uit_scores_df).run()
+    uitslag_score = '%.f - %.f' % (thuis_predict, uit_predict)
+    print(uitslag_score)
+    uitslag = "{}".format(uitslag_score)
+    uitslag2["text"] = uitslag
 
 # ------------------------------------------------------------------------------------------------------------------#
 # Achtergrond #
@@ -47,13 +68,19 @@ frame1.place(relx=0.15, rely=0.1, relwidth=0.6, relheight=0.5)
 frame2 = Frame(root, bg="#f5faff")
 frame2.place(relx=0.2, rely=0.65, relwidth=0.5, relheight=0.25)
 
+frame3 = Frame(frame2, bg="#b4cce4")
+frame3.place(relx=0.25, rely=0.55, relwidth=0.5, relheight=0.3)
+
 # ------------------------------------------------------------------------------------------------------------------#
 # Labels #
 
-uitslag = Label(master=frame2, text='Uitslag', height=1, bg="#f5faff", fg="#004080")
-uitslag.config(font=("Britannic bold", 25))
-uitslag.pack()
+uitslag1 = Label(master=frame2, text='Uitslag', height=1, bg="#f5faff", fg="#004080")
+uitslag1.config(font=("Britannic bold", 25))
+uitslag1.place(x=170, y=20)
 
+uitslag2 = Label(master=frame3,  height=1, bg="#b4cce4", fg="#004080")
+uitslag2.config(font=("Britannic bold", 18))
+uitslag2.place(x=80, y=5)
 # ------------------------------------------------------------------------------------------------------------------#
 # buttons #
 
@@ -73,20 +100,20 @@ HUKnop.bind("<Button-1>", lambda e: openWebsite("https://www.hu.nl/"))
 
 # ------------------------------------------------------------------------------------------------------------------#
 # optie menu's' #
-
-teamLijst = create_superteams_list(create_club_objects(get_clubnames()))
+clubs = create_club_objects(get_clubnames())
+teamLijst = create_superteams_list(clubs)
 scheidsLijst = ["1", "2", "3", "4"]
 
 variableThuisTeam = StringVar(frame1)
 variableThuisTeam.set("Thuis team")
 optiesThuisTeam = OptionMenu(frame1, variableThuisTeam, *teamLijst, command=set_thuisteam)
-optiesThuisTeam.config(font=("Britannic bold", 30), bg="#f5faff", fg="#004080")
+optiesThuisTeam.config(font=("Britannic bold", 25), bg="#f5faff", fg="#004080")
 optiesThuisTeam.place(x=10, y=20, height=70, width=245)
 
 variableUitTeam = StringVar(frame1)
 variableUitTeam.set("Uit team")
 optiesUitTeam = OptionMenu(frame1, variableUitTeam, *teamLijst, command=set_uittteam)
-optiesUitTeam.config(font=("Britannic bold", 30), bg="#f5faff", fg="#004080")
+optiesUitTeam.config(font=("Britannic bold", 25), bg="#f5faff", fg="#004080")
 optiesUitTeam.place(x=280, y=20, height=70, width=245)
 
 variableScheids1= StringVar(frame1)

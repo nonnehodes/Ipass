@@ -1,7 +1,6 @@
 import pandas as pd
 import sqlite3
 
-# https://stackoverflow.com/questions/2887878/importing-a-csv-file-into-a-sqlite3-database-table-using-python
 
 
 def setup_connection():
@@ -25,30 +24,34 @@ def get_clubnames():
     return club_list
 
 
-def get_team_score(target_team, tegenstander):
+def get_team_score(target_teams, tegenstanders):
     con = setup_connection()
     cur = con.cursor()
-    cur.execute("""SELECT datum, thuisteam, thuisscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
-    thuis_score = cur.fetchall()
     output = []
-    for item in thuis_score:
-        scores = {}
-        scores['datum'] = item[0]
-        scores['team'] = item[1]
-        scores['uit_thuis'] = 'thuis'
-        scores['score'] = item[2]
-        output.append(scores)
+    for target_team in target_teams:
+        for tegenstander in tegenstanders:
+            cur.execute("""SELECT datum, thuisteam, thuisscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
+            thuis_score = cur.fetchall()
 
-    cur.execute("""SELECT datum, uitteam, uitscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (tegenstander, target_team))
-    uit_score = cur.fetchall()
-    for item in uit_score:
-        scores = {}
-        scores['datum'] = item[0]
-        scores['team'] = item[1]
-        scores['uit_thuis'] = 'uit'
-        scores['score'] = item[2]
-        output.append(scores)
+            for item in thuis_score:
+                scores = {}
+                scores['datum'] = item[0]
+                scores['team'] = item[1]
+                scores['uit_thuis'] = 'thuis'
+                scores['score'] = item[2]
+                output.append(scores)
 
+            cur.execute("""SELECT datum, uitteam, uitscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (tegenstander, target_team))
+            uit_score = cur.fetchall()
+            for item in uit_score:
+                scores = {}
+                scores['datum'] = item[0]
+                scores['team'] = item[1]
+                scores['uit_thuis'] = 'uit'
+                scores['score'] = item[2]
+                output.append(scores)
+
+    print(output)
     df = pd.DataFrame(output)
     df['datum'] = pd.to_datetime(df.datum)
     df = df.sort_values(by='datum').reset_index()
@@ -83,3 +86,7 @@ def clean_query_results(results):
     for row in results:
         out.append(row[0])
     return out
+
+
+
+# https://stackoverflow.com/questions/2887878/importing-a-csv-file-into-a-sqlite3-database-table-using-python
