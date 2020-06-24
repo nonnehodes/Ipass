@@ -16,10 +16,7 @@ class Algoritme():
         model = polyfit(t, xn, 1)
         (ar, br) = model
 
-        x = polyval(model, t)
         xr = polyval([ar, br], t)
-
-        (a_s, b_s, r, tt, stderr) = stats.linregress(t, xn)
 
         title('Linear Regression Example')
         plot(t, xn, 'k.')

@@ -30,7 +30,7 @@ def get_team_score(target_teams, tegenstanders):
     output = []
     for target_team in target_teams:
         for tegenstander in tegenstanders:
-            cur.execute("""SELECT datum, thuisteam, thuisscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
+            cur.execute("""SELECT datum, thuisteam, thuisscore, scheids1_hashed, scheids2_hashed FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
             thuis_score = cur.fetchall()
 
             for item in thuis_score:
@@ -39,9 +39,11 @@ def get_team_score(target_teams, tegenstanders):
                 scores['team'] = item[1]
                 scores['uit_thuis'] = 'thuis'
                 scores['score'] = item[2]
+                scores['scheids1'] = item[3]
+                scores['scheids2'] = item[4]
                 output.append(scores)
 
-            cur.execute("""SELECT datum, uitteam, uitscore FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (tegenstander, target_team))
+            cur.execute("""SELECT datum, uitteam, uitscore, scheids1_hashed, scheids2_hashed FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (tegenstander, target_team))
             uit_score = cur.fetchall()
             for item in uit_score:
                 scores = {}
@@ -49,10 +51,12 @@ def get_team_score(target_teams, tegenstanders):
                 scores['team'] = item[1]
                 scores['uit_thuis'] = 'uit'
                 scores['score'] = item[2]
+                scores['scheids1'] = item[3]
+                scores['scheids2'] = item[4]
                 output.append(scores)
 
-    print(output)
     df = pd.DataFrame(output)
+    print(df.head(10))
     df['datum'] = pd.to_datetime(df.datum)
     df = df.sort_values(by='datum').reset_index()
     return df
@@ -80,6 +84,20 @@ def get_team_names_na_2011(clubnaam):
     cur.execute("""SELECT DISTINCT uitteam FROM dames_competitie WHERE uitclub = ? AND genre = ? AND seizoen>=2011 AND poule_naam LIKE "%Eredivisie%" """, (clubnaam, 'competitie'))
     out_na_2001 += clean_query_results(cur.fetchall())
     return list(set(out_na_2001))
+
+def get_scheidsrechters():
+    conn = sqlite3.connect("nefub.sqlite")
+    cur = conn.cursor()
+    scheidsrechters_lijst_hashed = []
+
+    cur.execute("""SELECT DISTINCT scheids1_hashed FROM dames_competitie""")
+    scheidsrechters_lijst_hashed += clean_query_results(cur.fetchall())
+
+    cur.execute("""SELECT DISTINCT scheids2_hashed FROM dames_competitie""")
+    scheidsrechters_lijst_hashed += clean_query_results(cur.fetchall())
+
+    print(list(set(scheidsrechters_lijst_hashed)))
+    return list(set(scheidsrechters_lijst_hashed))
 
 def clean_query_results(results):
     out = []
