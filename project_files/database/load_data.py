@@ -59,6 +59,7 @@ def get_team_score(target_teams, tegenstanders):
     print(df.head(10))
     df['datum'] = pd.to_datetime(df.datum)
     df = df.sort_values(by='datum').reset_index()
+    df.to_csv('output.csv', index=False)
     return df
 
 def get_team_names_voor_2011(clubnaam):

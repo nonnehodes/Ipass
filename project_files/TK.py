@@ -54,7 +54,7 @@ def predictScores():
 # Achtergrond #
 
 C = Canvas(root, height=605, width=891)
-filename = PhotoImage(file="Floorballveld.png")
+filename = PhotoImage(file="../Floorballveld.png")
 background_label = Label(root, image=filename)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 C.pack()
