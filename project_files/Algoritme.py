@@ -21,26 +21,17 @@ class Algoritme():
 
         a = ((n * sumXY) - (sumX * sumY))/((n * sumX2) - (sumX * sumX))
         b = (sumY - a * sumX) / n
-        print('self calculated:')
         print(a, b)
 
-        model = polyfit(data.y, xn, 1)
-        (ar, br) = model
-        print('polyfit:')
-        print(model)
-        print(ar, br)
-
         x = polyval([a, b], data.y)
-        xr = polyval([ar, br], data.y)
 
         title('Linear Regression Example')
         plot(data.y, x, 'g--')
         plot(data.y, xn, 'k.')
-        plot(data.y, xr, 'r.-')
-        legend(['self', 'scores', 'linregress'])
+        legend(['linregress', 'scores'])
         show()
 
-        predict = poly1d([a,b])
+        predict = poly1d([a, b])
         next_match = self.aantal_wedstrijden + 1
         return predict(next_match)
 
