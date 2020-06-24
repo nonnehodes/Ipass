@@ -1,7 +1,7 @@
 from tkinter import *
 import webbrowser
 
-from project_files.Algoritme import Algoritme
+from project_files.AlgoritmeLinRegress import AlgoritmeLinRegress
 from project_files.helpers import create_superteams_list, create_club_objects
 from project_files.database.load_data import get_clubnames, get_team_score
 
@@ -33,20 +33,15 @@ def predictScores():
     for club in clubs:
         if club.get_clubnaam() in thuisteam:
             thuis_teams_lijst = club.get_superteams()[thuisteam]
-            print(thuisteam)
-            print(thuis_teams_lijst)
 
         if club.get_clubnaam() in uitteam:
             uit_teams_lijst = club.get_superteams()[uitteam]
-            print(uitteam)
-            print(uit_teams_lijst)
 
     thuis_scores_df = get_team_score(thuis_teams_lijst, uit_teams_lijst)
     uit_scores_df = get_team_score(uit_teams_lijst, thuis_teams_lijst)
-    thuis_predict = Algoritme(thuis_scores_df).run()
-    uit_predict = Algoritme(uit_scores_df).run()
+    thuis_predict = AlgoritmeLinRegress(thuis_scores_df).run()
+    uit_predict = AlgoritmeLinRegress(uit_scores_df).run()
     uitslag_score = '%.f - %.f' % (thuis_predict, uit_predict)
-    print(uitslag_score)
     uitslag = "{}".format(uitslag_score)
     uitslag2["text"] = uitslag
 

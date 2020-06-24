@@ -1,8 +1,7 @@
-from scipy import linspace, polyval, polyfit, sqrt, stats, poly1d
+from scipy import polyval
 from matplotlib.pyplot import plot, title, show, legend
-from project_files.database.load_data import get_team_score
 
-class Algoritme():
+class AlgoritmeLinRegress():
     def __init__(self, team_scores_df):
         self.scores = team_scores_df.score
         self.target_team = team_scores_df.team[0]
@@ -19,20 +18,17 @@ class Algoritme():
         sumY = data.x.sum()
         sumXY = (data.x * data.y).sum()
 
-        a = ((n * sumXY) - (sumX * sumY))/((n * sumX2) - (sumX * sumX))
-        b = (sumY - a * sumX) / n
-        print(a, b)
+        b = ((n * sumXY) - (sumX * sumY))/((n * sumX2) - (sumX * sumX))
+        a = (sumY - b * sumX) / n
 
-        x = polyval([a, b], data.y)
+        # x = polyval([b, a], data.y)
 
-        title('Linear Regression Example')
-        plot(data.y, x, 'g--')
-        plot(data.y, xn, 'k.')
-        legend(['linregress', 'scores'])
-        show()
+        # title('Linear Regression Example')
+        # plot(data.y, x, 'r--')
+        # plot(data.y, xn, 'k.')
+        # legend(['linregress', 'scores'])
+        # show()
 
-        predict = poly1d([a, b])
-        next_match = self.aantal_wedstrijden + 1
-        return predict(next_match)
+        return a + b*(n+1)
 
 # https://scipy-cookbook.readthedocs.io/items/LinearRegression.html
