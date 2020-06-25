@@ -26,7 +26,6 @@ def get_clubnames():
 def get_team_history(teams):
     con = setup_connection()
     df = pd.DataFrame()
-    print(teams)
     for team in teams:
         tp =  pd.read_sql_query('SELECT * FROM dames_competitie WHERE thuisteam=? OR uitteam=? AND genre=?', con, params=(team, team, 'competitie'))
         df = df.append(tp)
