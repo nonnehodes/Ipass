@@ -23,6 +23,16 @@ def get_clubnames():
         club_list += row
     return club_list
 
+def get_team_history(teams):
+    con = setup_connection()
+    df = pd.DataFrame()
+    print(teams)
+    for team in teams:
+        tp =  pd.read_sql_query('SELECT * FROM dames_competitie WHERE thuisteam=? OR uitteam=? AND genre=?', con, params=(team, team, 'competitie'))
+        df = df.append(tp)
+    df.to_csv('teams.csv', index=False)
+    return df
+
 
 def get_team_score(target_teams, tegenstanders):
     con = setup_connection()
@@ -30,7 +40,7 @@ def get_team_score(target_teams, tegenstanders):
     output = []
     for target_team in target_teams:
         for tegenstander in tegenstanders:
-            cur.execute("""SELECT datum, thuisteam, thuisscore, scheids1_hashed, scheids2_hashed FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
+            cur.execute("""SELECT datum, thuisteam, thuisscore, scheids1_hashed, scheids2_hashed, plaats_sporthal FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
             thuis_score = cur.fetchall()
 
             for item in thuis_score:
@@ -41,9 +51,10 @@ def get_team_score(target_teams, tegenstanders):
                 scores['score'] = item[2]
                 scores['scheids1'] = item[3]
                 scores['scheids2'] = item[4]
+                scores['locatie'] = item[5]
                 output.append(scores)
 
-            cur.execute("""SELECT datum, uitteam, uitscore, scheids1_hashed, scheids2_hashed FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (tegenstander, target_team))
+            cur.execute("""SELECT datum, uitteam, uitscore, scheids1_hashed, scheids2_hashed, plaats_sporthal FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (tegenstander, target_team))
             uit_score = cur.fetchall()
             for item in uit_score:
                 scores = {}
@@ -53,6 +64,7 @@ def get_team_score(target_teams, tegenstanders):
                 scores['score'] = item[2]
                 scores['scheids1'] = item[3]
                 scores['scheids2'] = item[4]
+                scores['locatie'] = item[5]
                 output.append(scores)
 
     df = pd.DataFrame(output)
@@ -104,7 +116,6 @@ def clean_query_results(results):
     for row in results:
         out.append(row[0])
     return out
-
 
 
 # https://stackoverflow.com/questions/2887878/importing-a-csv-file-into-a-sqlite3-database-table-using-python

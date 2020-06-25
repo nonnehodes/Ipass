@@ -2,8 +2,9 @@ from tkinter import *
 import webbrowser
 
 from project_files.AlgoritmeLinRegress import AlgoritmeLinRegress
+from project_files.AlgoritmeMLR import AlgoritmeMLR
 from project_files.helpers import create_superteams_list, create_club_objects
-from project_files.database.load_data import get_clubnames, get_team_score
+from project_files.database.load_data import get_clubnames, get_team_score, get_team_history
 
 root = Tk()
 root.title('Floorball voorspelling')
@@ -38,7 +39,10 @@ def predictScores():
             uit_teams_lijst = club.get_superteams()[uitteam]
 
     thuis_scores_df = get_team_score(thuis_teams_lijst, uit_teams_lijst)
+    get_team_history(uit_teams_lijst)
     uit_scores_df = get_team_score(uit_teams_lijst, thuis_teams_lijst)
+    print(AlgoritmeMLR(thuis_scores_df).run())
+    print('\n')
     thuis_predict = AlgoritmeLinRegress(thuis_scores_df).run()
     uit_predict = AlgoritmeLinRegress(uit_scores_df).run()
     uitslag_score = '%.f - %.f' % (thuis_predict, uit_predict)

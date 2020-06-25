@@ -1,34 +1,51 @@
 from scipy import polyval
 from matplotlib.pyplot import plot, title, show, legend
+import numpy as np
+
 
 class AlgoritmeLinRegress():
     def __init__(self, team_scores_df):
-        self.scores = team_scores_df.score
         self.target_team = team_scores_df.team[0]
         self.aantal_wedstrijden = len(team_scores_df)
         self.df = team_scores_df
 
     def run(self):
         n = self.aantal_wedstrijden
-        xn = self.scores
-        data = self.df.score.reset_index().rename(columns={'index': 'y', 'score': 'x'})
+        data = self.df.score.reset_index().rename(columns={'index': 'x', 'score': 'y'})
 
-        sumX = data.y.sum()
-        sumX2 = data.y.apply(lambda x: x * x).sum()
-        sumY = data.x.sum()
-        sumXY = (data.x * data.y).sum()
+        Y = data.y
+        X = data.x
 
-        b = ((n * sumXY) - (sumX * sumY))/((n * sumX2) - (sumX * sumX))
-        a = (sumY - b * sumX) / n
+        x_mean = np.mean(X)
+        y_mean = np.mean(Y)
 
-        # x = polyval([b, a], data.y)
+        top = 0
+        bottom = 0
+        for i in range(n):
+            top += (X[i] - x_mean) * (Y[i] - y_mean)
+            bottom += (X[i] - x_mean) ** 2
 
+        b = top / bottom
+        a = y_mean - (b * x_mean)
+
+        # print(a, b)
+        # x = polyval([b, a], X)
+        # xn = Y
         # title('Linear Regression Example')
-        # plot(data.y, x, 'r--')
-        # plot(data.y, xn, 'k.')
+        # plot(data.x, x, 'r--')
+        # plot(data.x, xn, 'k.')
         # legend(['linregress', 'scores'])
         # show()
 
-        return a + b*(n+1)
+        rmse = 0
+        for i in range(n):
+            g = a + b * X[i]
+            rmse += (Y[i] - g) ** 2
+
+        rmse = np.sqrt(rmse / n)
+        print("LR rmse: {}".format(rmse))
+
+        return a + b * (n + 1)
+
 
 # https://scipy-cookbook.readthedocs.io/items/LinearRegression.html
