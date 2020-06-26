@@ -1,6 +1,7 @@
 from scipy import polyval
 from matplotlib.pyplot import plot, title, show, legend
 import numpy as np
+import pandas as pd
 
 
 class AlgoritmeLinRegress():
@@ -47,5 +48,5 @@ class AlgoritmeLinRegress():
 
         return a + b * (n + 1)
 
-
+AlgoritmeLinRegress(pd.read_csv('output.csv')).run()
 # https://scipy-cookbook.readthedocs.io/items/LinearRegression.html

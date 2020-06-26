@@ -1,42 +1,77 @@
-from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeRegressor
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn.model_selection import train_test_split, cross_val_predict, cross_val_score
 import numpy as np
 
 class AlgoritmeDecisionTree:
-    def __init__(self, team_scores_df):
+    def __init__(self, team_scores_df, scheids1=None, scheids2=None, locatie=None):
         self.scores = team_scores_df.score
         self.target_team = team_scores_df.team[0]
         self.aantal_wedstrijden = len(team_scores_df)
         self.df = team_scores_df
+        self.scheids1 = scheids1
+        self.scheids2 = scheids2
+        self.locatie = locatie
 
     def run(self):
-        n = self.aantal_wedstrijden
-        data = self.df.reset_index()
-        enc = LabelEncoder()
-        data.locatie = enc.fit_transform(y=data.locatie)
-        data.scheids1 = enc.fit_transform(y=data.scheids1)
-        data.scheids2 = enc.fit_transform(y=data.scheids2)
-        features =['index']
-        X = data[features]
+        data = self.df
+        features = ['index']
+        if self.scheids1:
+            features.append('scheids1')
+        if self.scheids2:
+            features.append('scheids2')
+        if self.locatie:
+            features.append('locatie')
+
+        X = data[features].sort_values(by='index', ascending=True).reset_index(drop=True)
+        string_cols = [col for col, dt in X.dtypes.items() if dt == object]
+        df_dummies = pd.get_dummies(X[string_cols])
+        X = X.drop(columns=string_cols).join(df_dummies)
+        print(X.columns)
         Y = data['score']
-        model = DecisionTreeRegressor(random_state=42)
-        model.fit(X, Y)
-        pred = [model.predict([[i]]) for i in range(n)]
+
+        X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.8, test_size=0.2)
+        model = DecisionTreeRegressor(random_state=0)
+        model.fit(X,Y)
+
+        # test = model.predict(X_test)
+        # print(test)
+        # eval = cross_val_score(model, X, Y, cv=5, scoring='neg_mean_squared_error')
+        # print(eval)
+        # print('\n')
+
+        pd.DataFrame(X_test).to_csv('../notebook/prediction.csv')
         plt.figure()
         plt.scatter(X['index'], Y, s=20, edgecolor="black",
                     c="darkorange", label="data")
-        plt.plot(X['index'], pred, color="yellowgreen", label="DCT", linewidth=1)
         plt.xlabel("index")
         plt.ylabel("Score")
         plt.title("Decision Tree Regression")
         plt.legend()
         plt.show()
-        print(model.predict([[n+1]]))
+
+        print(model.predict(self.create_prediction_array(X, features)))
+
+    def create_prediction_array(self, X, features):
+        new_row = {}
+        for feature in features:
+            if feature == 'index':
+                new_row[feature] = self.aantal_wedstrijden + 1
+            elif feature == 'scheids1':
+                col = 'scheids1_' + self.scheids1
+                new_row[col] = 1
+            elif feature == 'scheids2':
+                col = 'scheids2_' + self.scheids2
+                new_row[col] = 1
+            elif feature == 'locatie':
+                col = 'locatie_' + self.locatie
+                new_row[col] = 1
+        df = X.drop(X.index).append(new_row, ignore_index=True).fillna(0)
+        df.to_csv('cols.csv')
+        return df
 
 
 
 
-
-AlgoritmeDecisionTree(pd.read_csv('output.csv')).run()
+AlgoritmeDecisionTree(pd.read_csv('output.csv'), '7d44fdb4cd369049c23112395b915226', 'f8cd5ba4b8d3c0dade7c079fd87a3c3b', 'Amsterdam').run()

@@ -12,6 +12,8 @@ root.title('Floorball voorspelling')
 
 thuisteam = ''
 uitteam = ''
+scheids1 = ''
+scheids2 = ''
 # ------------------------------------------------------------------------------------------------------------------#
 # kleine functies #
 
@@ -25,6 +27,14 @@ def set_thuisteam(value):
 def set_uittteam(value):
     global uitteam
     uitteam = value
+
+def set_scheids1(value):
+    global scheids1
+    scheids1 = value
+
+def set_scheids2(value):
+    global scheids2
+    scheids2 = value
 
 def predictScores():
     global thuisteam
@@ -43,7 +53,7 @@ def predictScores():
     uit_scores_df = get_team_score(uit_teams_lijst, thuis_teams_lijst)
 
     get_team_history(uit_teams_lijst)
-    AlgoritmeDecisionTree(thuis_scores_df).run()
+    AlgoritmeDecisionTree(thuis_scores_df, scheids1, scheids2).run()
 
     thuis_predict = AlgoritmeLinRegress(thuis_scores_df).run()
     uit_predict = AlgoritmeLinRegress(uit_scores_df).run()
@@ -119,13 +129,13 @@ optiesUitTeam.place(x=280, y=20, height=70, width=245)
 
 variableScheids1= StringVar(frame1)
 variableScheids1.set("Scheidsrechter 1")
-optiesScheids1 = OptionMenu(frame1, variableScheids1, *scheidsLijst)
+optiesScheids1 = OptionMenu(frame1, variableScheids1, *scheidsLijst, command=set_scheids1)
 optiesScheids1.config(font=("Britannic bold", 18), bg="#f5faff", fg="#004080")
 optiesScheids1.place(x=10, y=130, height=60, width=245)
 
 variableScheids2= StringVar(frame1)
 variableScheids2.set("Scheidsrechter 2")
-optiesScheids2 = OptionMenu(frame1, variableScheids2, *scheidsLijst)
+optiesScheids2 = OptionMenu(frame1, variableScheids2, *scheidsLijst, command=set_scheids2)
 optiesScheids2.config(font=("Britannic bold", 18), bg="#f5faff", fg="#004080")
 optiesScheids2.place(x=280, y=130, height=60, width=245)
 
