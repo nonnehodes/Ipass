@@ -7,15 +7,25 @@ import numpy as np
 class AlgorithmLinRegress():
     def __init__(self, team_scores_df):
         self.target_team = team_scores_df.team[0]
-        self.aantal_wedstrijden = len(team_scores_df)
+        self.total_games = len(team_scores_df)
         self.df = team_scores_df
 
     def run(self):
-        n = self.aantal_wedstrijden
-        data = self.df.score.reset_index().rename(columns={'index': 'x', 'score': 'y'})
+        '''
+        Calculation for simple linear regression
 
-        Y = data.y
-        X = data.x
+        Requires a DataFrame with the game statistics
+        Target team for prediction vs. Opponent
+
+        Algorithm will calculate prediction for Target team
+
+        :return: prediction value
+        '''
+        n = self.total_games
+        data = self.df.score.reset_index()
+
+        Y = data.score
+        X = data.index
 
         x_mean = np.mean(X)
         y_mean = np.mean(Y)
@@ -37,7 +47,6 @@ class AlgorithmLinRegress():
         # plot(data.x, xn, 'k.')
         # legend(['linregress', 'scores'])
         # show()
-
         # rmse = 0
         # for i in range(n):
         #     g = a + b * X[i]
@@ -48,6 +57,4 @@ class AlgorithmLinRegress():
 
         return a + b * (n + 1)
 
-# import pandas as pd
-# AlgoritmeLinRegress(pd.read_csv('output-utrecht.csv')).run()
 # https://scipy-cookbook.readthedocs.io/items/LinearRegression.html

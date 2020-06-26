@@ -4,23 +4,35 @@ import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_predict, cross_val_score
 
 class AlgorithmDecisionTree:
-    def __init__(self, team_scores_df, scheids1=None, scheids2=None, locatie=None):
+    def __init__(self, team_scores_df, ref1=None, ref2=None, location=None):
         self.scores = team_scores_df.score
         self.target_team = team_scores_df.team[0]
-        self.aantal_wedstrijden = len(team_scores_df)
+        self.total_games = len(team_scores_df)
         self.df = team_scores_df
-        self.scheids1 = scheids1
-        self.scheids2 = scheids2
-        self.locatie = locatie
+        self.ref1 = ref1
+        self.ref2 = ref2
+        self.location = location
 
     def run(self):
+        '''
+        Calculation for Decision Tree Regression
+
+        Requires a DataFrame with the game statistics
+        Target team for prediction vs. Opponent
+
+        Algorithm will calculate prediction for Target team
+
+        Additional features can be referee 1, referee 2, location
+
+        :return: prediction value
+        '''
         data = self.df
         features = ['index']
-        if self.scheids1:
+        if self.ref1:
             features.append('scheids1')
-        if self.scheids2:
+        if self.ref2:
             features.append('scheids2')
-        if self.locatie:
+        if self.location:
             features.append('locatie')
 
         X = data[features].sort_values(by='index', ascending=True).reset_index(drop=True)
@@ -60,19 +72,19 @@ class AlgorithmDecisionTree:
         new_row = {}
         for feature in features:
             if feature == 'index':
-                new_row[feature] = self.aantal_wedstrijden + 1
+                new_row[feature] = self.total_games + 1
             elif feature == 'scheids1':
                 for x in X.columns:
-                    if self.scheids1 in x:
+                    if self.ref1 in x:
                         col = x
                 new_row[col] = 1
             elif feature == 'scheids2':
                 for x in X.columns:
-                    if self.scheids2 in x:
+                    if self.ref2 in x:
                         col = x
                 new_row[col] = 1
             elif feature == 'locatie':
-                col = 'locatie_' + self.locatie
+                col = 'locatie_' + self.location
                 new_row[col] = 1
         df = X.drop(X.index).append(new_row, ignore_index=True).fillna(0)
         return df
