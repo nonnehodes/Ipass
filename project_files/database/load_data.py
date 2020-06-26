@@ -75,7 +75,7 @@ def get_team_score(target_teams, tegenstanders):
                 output.append(scores)
 
     df = pd.DataFrame(output)
-    df['date'] = pd.to_datetime(df.datum)
+    df['date'] = pd.to_datetime(df.date)
     df = df.sort_values(by='date').reset_index()
     return df
 

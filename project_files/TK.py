@@ -23,13 +23,13 @@ location = ''
 def openWebsite(url):
     webbrowser.open(url)
 
-def set_thuisteam(value):
+def set_hometeam(value):
     global hometeam
     hometeam = value
     build_scheidsrechters_dropdown(hometeam, awayteam)
 
 
-def set_uittteam(value):
+def set_awayteam(value):
     global awayteam
     awayteam = value
     build_scheidsrechters_dropdown(hometeam, awayteam)
@@ -182,13 +182,13 @@ all_algorithms = ['DecisionTree', 'MultipleLR', 'LinearRegression']
 
 variableHomeTeam = StringVar(frame1)
 variableHomeTeam.set("Thuis team")
-optionsHomeTeam = OptionMenu(frame1, variableHomeTeam, *all_teams, command=set_thuisteam)
+optionsHomeTeam = OptionMenu(frame1, variableHomeTeam, *all_teams, command=set_hometeam)
 optionsHomeTeam.config(font=("Britannic bold", 25), bg="#f5faff", fg="#004080")
 optionsHomeTeam.place(x=10, y=20, height=70, width=245)
 
 variableAwayTeam = StringVar(frame1)
 variableAwayTeam.set("Uit team")
-optionsAwayTeam = OptionMenu(frame1, variableAwayTeam, *all_teams, command=set_uittteam)
+optionsAwayTeam = OptionMenu(frame1, variableAwayTeam, *all_teams, command=set_awayteam)
 optionsAwayTeam.config(font=("Britannic bold", 25), bg="#f5faff", fg="#004080")
 optionsAwayTeam.place(x=280, y=20, height=70, width=245)
 

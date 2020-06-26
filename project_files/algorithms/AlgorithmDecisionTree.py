@@ -63,7 +63,7 @@ class AlgorithmDecisionTree:
 
         prediction = model.predict(self.create_prediction_array(X, features))
         # print('prediction = {}'.format(prediction))
-        return prediction
+        return prediction[0]
 
 
     def create_prediction_array(self, X, features):

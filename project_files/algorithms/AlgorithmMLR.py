@@ -6,7 +6,6 @@ import pandas as pd
 
 class AlgorithmMLR():
     def __init__(self, team_scores_df, ref1=None, ref2=None):
-        self.target_team = team_scores_df.team[0]
         self.total_games = len(team_scores_df)
         self.df = team_scores_df
         self.ref1 = ref1
@@ -56,7 +55,7 @@ class AlgorithmMLR():
         for item in all_coeffs.values():
             total += item[1]
         a = y_mean - total
-        print('a: {}'.format(a))
+        # print('a: {}'.format(a))
 
         y_temp = []
         for i in range(n):
@@ -83,7 +82,7 @@ class AlgorithmMLR():
             temp = []
             temp.append(all_coeffs[j][0] * p[col][0])
         prediction = a + sum(temp)
-        print('prediction = {}'.format(prediction))
+        # print('prediction = {}'.format(prediction))
         return prediction
 
     def create_prediction_array(self, X, features):
