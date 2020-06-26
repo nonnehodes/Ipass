@@ -5,7 +5,7 @@ from project_files.AlgoritmeDecisionTree import AlgoritmeDecisionTree
 from project_files.AlgoritmeLinRegress import AlgoritmeLinRegress
 from project_files.AlgoritmeMLR import AlgoritmeMLR
 from project_files.helpers import create_superteams_list, create_club_objects
-from project_files.database.load_data import get_clubnames, get_team_score, get_team_history
+from project_files.database.load_data import get_clubnames, get_team_score, get_team_history, get_scheidsrechters
 
 root = Tk()
 root.title('Floorball voorspelling')
@@ -97,7 +97,7 @@ uitslag2.place(x=80, y=5)
 
 voorspelKnop = Button(master=frame1, text='Voorspel', bg="#f5faff", fg="#004080", command=predictScores)
 voorspelKnop.config(font=("Britannic bold", 20))
-voorspelKnop.place(x=205, y=220)
+voorspelKnop.place(x=205, y=240)
 
 NeFUBKnop = Button(master=root, text='NeFUB site', bg="#b3cce6", fg="#004080")
 NeFUBKnop.config(font=("Calibri light", 10))
@@ -113,7 +113,9 @@ HUKnop.bind("<Button-1>", lambda e: openWebsite("https://www.hu.nl/"))
 # optie menu's' #
 clubs = create_club_objects(get_clubnames())
 teamLijst = create_superteams_list(clubs)
-scheidsLijst = ["1", "2", "3", "4"]
+scheidsLijst = get_scheidsrechters()
+locatieLijst = ["a", "b", "c"]
+algoritmeLijst = ["a", "b", "c"]
 
 variableThuisTeam = StringVar(frame1)
 variableThuisTeam.set("Thuis team")
@@ -131,15 +133,25 @@ variableScheids1= StringVar(frame1)
 variableScheids1.set("Scheidsrechter 1")
 optiesScheids1 = OptionMenu(frame1, variableScheids1, *scheidsLijst, command=set_scheids1)
 optiesScheids1.config(font=("Britannic bold", 18), bg="#f5faff", fg="#004080")
-optiesScheids1.place(x=10, y=130, height=60, width=245)
+optiesScheids1.place(x=10, y=100, height=60, width=245)
 
 variableScheids2= StringVar(frame1)
 variableScheids2.set("Scheidsrechter 2")
 optiesScheids2 = OptionMenu(frame1, variableScheids2, *scheidsLijst, command=set_scheids2)
 optiesScheids2.config(font=("Britannic bold", 18), bg="#f5faff", fg="#004080")
-optiesScheids2.place(x=280, y=130, height=60, width=245)
+optiesScheids2.place(x=280, y=100, height=60, width=245)
 
+variableLocatie= StringVar(frame1)
+variableLocatie.set("Locatie")
+optiesLocatie = OptionMenu(frame1, variableLocatie, *locatieLijst, command=set_scheids2)
+optiesLocatie.config(font=("Britannic bold", 15), bg="#f5faff", fg="#004080")
+optiesLocatie.place(x=385, y=170, height=50, width=140)
 
+variableAlgoritme= StringVar(frame1)
+variableAlgoritme.set("Algoritme")
+optiesAlgoritme = OptionMenu(frame1, variableAlgoritme, *algoritmeLijst, command=set_scheids2)
+optiesAlgoritme.config(font=("Britannic bold", 15), bg="#f5faff", fg="#004080")
+optiesAlgoritme.place(x=10, y=170, height=50, width=140)
 # ------------------------------------------------------------------------------------------------------------------#
 
 root.mainloop()

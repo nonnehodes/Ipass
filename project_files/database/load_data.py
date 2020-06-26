@@ -97,7 +97,7 @@ def get_team_names_na_2011(clubnaam):
     return list(set(out_na_2001))
 
 def get_scheidsrechters():
-    conn = sqlite3.connect("nefub.sqlite")
+    conn = setup_connection()
     cur = conn.cursor()
     scheidsrechters_lijst_hashed = []
 
