@@ -2,7 +2,6 @@ from sklearn.tree import DecisionTreeRegressor
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_predict, cross_val_score
-import numpy as np
 
 class AlgoritmeDecisionTree:
     def __init__(self, team_scores_df, scheids1=None, scheids2=None, locatie=None):
@@ -74,4 +73,4 @@ class AlgoritmeDecisionTree:
 
 
 
-AlgoritmeDecisionTree(pd.read_csv('output.csv'), '7d44fdb4cd369049c23112395b915226', 'f8cd5ba4b8d3c0dade7c079fd87a3c3b', 'Amsterdam').run()
+# AlgoritmeDecisionTree(pd.read_csv('output.csv'), '7d44fdb4cd369049c23112395b915226', 'f8cd5ba4b8d3c0dade7c079fd87a3c3b', 'Amsterdam').run()
