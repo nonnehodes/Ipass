@@ -49,5 +49,5 @@ class AlgoritmeLinRegress():
         return a + b * (n + 1)
 
 # import pandas as pd
-# AlgoritmeLinRegress(pd.read_csv('output.csv')).run()
+# AlgoritmeLinRegress(pd.read_csv('output-utrecht.csv')).run()
 # https://scipy-cookbook.readthedocs.io/items/LinearRegression.html

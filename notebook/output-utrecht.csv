@@ -1,0 +1,36 @@
+index,datum,locatie,scheids1,scheids2,score,team,uit_thuis
+9,2009-09-26,Amersfoort,7375e9769477ca69d4b3aa06bbdca2ee,e7323ae630ac7677d6bc7c5edbfe6040,1,UFC Utrecht 1,uit
+6,2009-11-21,Amersfoort,56d01f82d5e18271d4509ce89a1f2339,8c76698b23b8b80c24b7f12da58a9b5d,2,UFC Utrecht 1,thuis
+7,2010-06-05,Amersfoort,7ac8130b52c6f6ce2b283cf7c0bba49d,8a388ef2fadae3e726e956df8eeef2ce,4,UFC Utrecht 1,thuis
+8,2010-12-11,Utrecht,7652402bc75dd6aae83926565d619198,ae328dd8832a9397869997825313668a,4,UFC Utrecht 1,thuis
+10,2011-04-02,Tilburg,f4a29fda5ec9060b7deeaa08a67af3b0,d9e0377f24f45e4a6bc63d7e3fb2e8ec,3,UFC Utrecht 1,uit
+0,2012-01-21,Amersfoort (Vathorst),7ac8130b52c6f6ce2b283cf7c0bba49d,b9143c206c117f758c5c2dadf481596a,2,UFC Utrecht 1,thuis
+1,2012-03-31,Amersfoort,045d8a65141bb3664cc1d6e65ee8ec5c,e8b586dae2dc4c685925de6bb697da45,4,UFC Utrecht 1,thuis
+3,2012-05-26,Amsterdam,7ac8130b52c6f6ce2b283cf7c0bba49d,06bd1f981bcec6deb2475c2ee558ba5b,1,UFC Utrecht 1,uit
+2,2012-09-29,Amersfoort,7d44fdb4cd369049c23112395b915226,384bf1cd70241d860239928266da7b5e,3,UFC Utrecht 1,thuis
+4,2013-02-09,Amersfoort (Vathorst),a86fc0259b7a07b0548b11403f2d6c65,3b8aff4f422864b873a9c726968110eb,5,UFC Utrecht 1,uit
+5,2013-04-20,Amsterdam,bc802ff6321cbbd91f6a779c128e384b,7652402bc75dd6aae83926565d619198,5,UFC Utrecht 1,uit
+11,2013-11-09,Utrecht,f8cd5ba4b8d3c0dade7c079fd87a3c3b,1f142fb403fbf225daab16e7619edff3,2,UFC Utrecht 1,thuis
+21,2014-01-04,Amersfoort (Vathorst),94ee58db40b3bb140a1e2afb65748fa1,9608e05bbec9f0e5009f1b795f221999,9,UFC Utrecht 1,uit
+12,2014-03-08,Amersfoort (Vathorst),c9725eee9c6751199b016a0f464ee4b3,492b1e577d5fd5add892c854adf60569,2,UFC Utrecht 1,thuis
+22,2014-10-11,Amersfoort,4f872822235cd482aa202edcd5c94ab2,b6329eee7490b370812da813393a8f38,5,UFC Utrecht 1,uit
+13,2014-12-06,Utrecht,1565a3d0c750ad737e86c8cdae4927e1,d301912f2ad257ecce775a4d2ba31233,1,UFC Utrecht 1,thuis
+14,2015-02-28,Utrecht,6726dc565f3cebd78423a258d2d5a2cd,46548e170c3eec158f2dce5859a5bbb4,1,UFC Utrecht 1,thuis
+23,2015-03-14,Utrecht,292cb27c5102c8f13410b3ead400d59a,581d3c9fefbf642cbb169505d0e7dc60,4,UFC Utrecht 1,uit
+24,2015-03-28,Amersfoort,7652402bc75dd6aae83926565d619198,f8cd5ba4b8d3c0dade7c079fd87a3c3b,6,UFC Utrecht 1,uit
+15,2015-04-11,Amersfoort,292cb27c5102c8f13410b3ead400d59a,782356bc86084494e137781fc42fc97a,6,UFC Utrecht 1,thuis
+25,2015-09-26,Utrecht,ba230ce4963134590e4bd05185e36281,be17171577738e0dfb43c18143024f42,5,UFC Utrecht 1,uit
+16,2016-02-27,Utrecht,7652402bc75dd6aae83926565d619198,dcc0250ff093e4fcfc3191b6727d6d30,4,UFC Utrecht 1,thuis
+26,2016-03-19,Utrecht,7adfe943c89dced88eb9264427ee9685,c42386b84ff1ede5be28aa82d9b5d7dc,1,UFC Utrecht 1,uit
+33,2016-10-01,Breda,203a6531f2ea38f37bef001d49d5228a,cdf559d793af7bead077d62f22d9f6b3,3,UFC Utrecht 1,uit
+31,2016-12-17,Utrecht,45f284466ef1e2542ee0aaf35a6e83b5,690ee7ed1e404e86740632bb82b57801,1,UFC Utrecht 1,thuis
+34,2017-03-11,Den Haag,52c46476e8eb3f8ad03df1ebb9bb8727,77e0cbd49bea59238990879a0541df8f,4,UFC Utrecht 1,uit
+32,2017-03-18,Utrecht,041b0d41cac9e4bae468c10a0d0c3e18,ba230ce4963134590e4bd05185e36281,5,UFC Utrecht 1,thuis
+27,2017-11-18,Houten,52c46476e8eb3f8ad03df1ebb9bb8727,f47bd99084ff83b5c0509f0234629370,9,UFC Utrecht 1,uit
+17,2018-02-10,Utrecht,f8cd5ba4b8d3c0dade7c079fd87a3c3b,52c46476e8eb3f8ad03df1ebb9bb8727,8,UFC Utrecht 1,thuis
+18,2018-03-24,Utrecht,52c46476e8eb3f8ad03df1ebb9bb8727,f4a29fda5ec9060b7deeaa08a67af3b0,7,UFC Utrecht 1,thuis
+28,2018-04-07,Utrecht,5d30a3eca945d8eb914813f87b2a9689,6899c684b6bde42985cc37691a1ec4c4,3,UFC Utrecht 1,uit
+19,2018-11-24,Utrecht,7adfe943c89dced88eb9264427ee9685,f168b49418df8cdc224f3921a00f886d,11,UFC Utrecht 1,thuis
+29,2019-03-16,Utrecht,03b437bf861cd50b6be9baaffa85f0c8,f4a29fda5ec9060b7deeaa08a67af3b0,6,UFC Utrecht 1,uit
+20,2019-11-16,Utrecht,2f94911872153729c2d60dab06d98ae3,77e0cbd49bea59238990879a0541df8f,9,UFC Utrecht 1,thuis
+30,2020-02-08,Utrecht,60c49a5abca56ce4e305f56b35efefe2,5e2176b3aa970e3a944ac7f7cf7f5178,4,UFC Utrecht 1,uit

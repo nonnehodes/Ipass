@@ -18,10 +18,8 @@ def get_clubnames():
     cur = con.cursor()
     cur.execute("""SELECT DISTINCT thuisclub FROM dames_competitie""")
     rows = cur.fetchall()
-    club_list = []
-    for row in rows:
-        club_list += row
-    return club_list
+    return clean_query_results(rows)
+
 
 def get_team_history(teams):
     con = setup_connection()
@@ -32,6 +30,16 @@ def get_team_history(teams):
     df.to_csv('teams.csv', index=False)
     return df
 
+def get_locaties(thuisteams, uitteams):
+    con = setup_connection()
+    cur = con.cursor()
+    output = []
+    for thuisteam in thuisteams:
+        for uitteam in uitteams:
+            cur.execute("""SELECT DIStINCT plaats_sporthal FROM dames_competitie WHERE uitteam=? AND thuisteam=?""", (thuisteam, uitteam))
+            rows = cur.fetchall()
+            output += clean_query_results(rows)
+    return output
 
 def get_team_score(target_teams, tegenstanders):
     con = setup_connection()
@@ -39,7 +47,7 @@ def get_team_score(target_teams, tegenstanders):
     output = []
     for target_team in target_teams:
         for tegenstander in tegenstanders:
-            cur.execute("""SELECT datum, thuisteam, thuisscore, scheids1_hashed, scheids2_hashed, plaats_sporthal FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (target_team, tegenstander))
+            cur.execute("""SELECT datum, thuisteam, thuisscore, scheids1_hashed, scheids2_hashed, plaats_sporthal FROM dames_competitie WHERE thuisteam=? AND uitteam=?""", (target_team, tegenstander))
             thuis_score = cur.fetchall()
 
             for item in thuis_score:
@@ -53,7 +61,7 @@ def get_team_score(target_teams, tegenstanders):
                 scores['locatie'] = item[5]
                 output.append(scores)
 
-            cur.execute("""SELECT datum, uitteam, uitscore, scheids1_hashed, scheids2_hashed, plaats_sporthal FROM dames_competitie WHERE thuisteam=? and uitteam=?""", (tegenstander, target_team))
+            cur.execute("""SELECT datum, uitteam, uitscore, scheids1_hashed, scheids2_hashed, plaats_sporthal FROM dames_competitie WHERE thuisteam=? AND uitteam=?""", (tegenstander, target_team))
             uit_score = cur.fetchall()
             for item in uit_score:
                 scores = {}
@@ -69,7 +77,7 @@ def get_team_score(target_teams, tegenstanders):
     df = pd.DataFrame(output)
     df['datum'] = pd.to_datetime(df.datum)
     df = df.sort_values(by='datum').reset_index()
-    df.to_csv('output.csv', index=False)
+    df.to_csv('output-away-team.csv', index=False)
     return df
 
 def get_team_names_voor_2011(clubnaam):
@@ -96,19 +104,18 @@ def get_team_names_na_2011(clubnaam):
     out_na_2001 += clean_query_results(cur.fetchall())
     return list(set(out_na_2001))
 
-def get_scheidsrechters():
+def get_scheidsrechters(thuisteams, uitteams):
     conn = setup_connection()
     cur = conn.cursor()
     scheidsrechters_lijst_hashed = []
+    for thuisteam in thuisteams:
+        for uitteam in uitteams:
+            cur.execute("""SELECT scheids1_hashed FROM dames_competitie WHERE thuisteam=? AND uitteam=?""", (thuisteam, uitteam))
+            scheidsrechters_lijst_hashed += clean_query_results(cur.fetchall())
 
-    cur.execute("""SELECT DISTINCT scheids1_hashed FROM dames_competitie""")
-    scheidsrechters_lijst_hashed += clean_query_results(cur.fetchall())
-
-    cur.execute("""SELECT DISTINCT scheids2_hashed FROM dames_competitie""")
-    scheidsrechters_lijst_hashed += clean_query_results(cur.fetchall())
-
-    print(list(set(scheidsrechters_lijst_hashed)))
-    return list(set(scheidsrechters_lijst_hashed))
+            cur.execute("""SELECT scheids2_hashed FROM dames_competitie WHERE thuisteam=? AND uitteam=?""", (thuisteam, uitteam))
+            scheidsrechters_lijst_hashed += clean_query_results(cur.fetchall())
+    return scheidsrechters_lijst_hashed
 
 def clean_query_results(results):
     out = []

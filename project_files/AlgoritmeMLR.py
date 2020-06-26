@@ -91,5 +91,5 @@ class AlgoritmeMLR():
         df.to_csv('mlr.csv')
         return df
 
-# AlgoritmeMLR(pd.read_csv('output.csv'), '7d44fdb4cd369049c23112395b915226', 'f8cd5ba4b8d3c0dade7c079fd87a3c3b').run()
+# AlgoritmeMLR(pd.read_csv('output-utrecht.csv'), '7d44fdb4cd369049c23112395b915226', 'f8cd5ba4b8d3c0dade7c079fd87a3c3b').run()
 # https://scipy-cookbook.readthedocs.io/items/LinearRegression.html

@@ -1,11 +1,12 @@
 from tkinter import *
 import webbrowser
+from tkinter import messagebox
 
 from project_files.AlgoritmeDecisionTree import AlgoritmeDecisionTree
 from project_files.AlgoritmeLinRegress import AlgoritmeLinRegress
 from project_files.AlgoritmeMLR import AlgoritmeMLR
 from project_files.helpers import create_superteams_list, create_club_objects
-from project_files.database.load_data import get_clubnames, get_team_score, get_team_history, get_scheidsrechters
+from project_files.database.load_data import get_clubnames, get_team_score, get_locaties, get_scheidsrechters
 
 root = Tk()
 root.title('Floorball voorspelling')
@@ -14,6 +15,9 @@ thuisteam = ''
 uitteam = ''
 scheids1 = ''
 scheids2 = ''
+algoritme = ''
+locatie = ''
+scheidsLijst = []
 # ------------------------------------------------------------------------------------------------------------------#
 # kleine functies #
 
@@ -23,10 +27,54 @@ def openWebsite(url):
 def set_thuisteam(value):
     global thuisteam
     thuisteam = value
+    build_scheidsrechters_dropdown(thuisteam, uitteam)
+
 
 def set_uittteam(value):
     global uitteam
     uitteam = value
+    build_scheidsrechters_dropdown(thuisteam, uitteam)
+
+
+def build_scheidsrechters_dropdown(thuisteam, uitteam):
+    global scheidsLijst
+    scheidsLijst = []
+    if thuisteam != '' and uitteam != '':
+        for club in clubs:
+            if club.get_clubnaam() in thuisteam:
+                thuis_teams_lijst = club.get_superteams()[thuisteam]
+
+            if club.get_clubnaam() in uitteam:
+                uit_teams_lijst = club.get_superteams()[uitteam]
+
+        thuis_scheidsen = get_scheidsrechters(thuis_teams_lijst, uit_teams_lijst)
+        uit_scheidsen = get_scheidsrechters(uit_teams_lijst, thuis_teams_lijst)
+
+        scheidsLijst = list(set(thuis_scheidsen) | set(uit_scheidsen))
+        variableScheids1 = StringVar(frame1)
+        variableScheids1.set("Scheidsrechter 1")
+        optiesScheids1 = OptionMenu(frame1, variableScheids1, *scheidsLijst, command=set_scheids1)
+        optiesScheids1.config(font=("Britannic bold", 18), bg="#f5faff", fg="#004080")
+        optiesScheids1.place(x=10, y=100, height=60, width=245)
+
+        variableScheids2 = StringVar(frame1)
+        variableScheids2.set("Scheidsrechter 2")
+        optiesScheids2 = OptionMenu(frame1, variableScheids2, *scheidsLijst, command=set_scheids2)
+        optiesScheids2.config(font=("Britannic bold", 18), bg="#f5faff", fg="#004080")
+        optiesScheids2.place(x=280, y=100, height=60, width=245)
+
+        thuis_locaties = get_locaties(thuis_teams_lijst, uit_teams_lijst)
+        uit_locaties = get_locaties(uit_teams_lijst, thuis_teams_lijst)
+        locatieLijst =  list(set(thuis_locaties) & set(uit_locaties))
+
+        variableLocatie = StringVar(frame1)
+        variableLocatie.set("Locatie")
+        optiesLocatie = OptionMenu(frame1, variableLocatie, *locatieLijst, command=set_locatie)
+        optiesLocatie.config(font=("Britannic bold", 15), bg="#f5faff", fg="#004080")
+        optiesLocatie.place(x=385, y=170, height=50, width=140)
+    else:
+        pass
+
 
 def set_scheids1(value):
     global scheids1
@@ -36,30 +84,51 @@ def set_scheids2(value):
     global scheids2
     scheids2 = value
 
+def set_algoritme(value):
+    global algoritme
+    algoritme = value
+
+def set_locatie(value):
+    global locatie
+    locatie = value
+
+
 def predictScores():
     global thuisteam
     global uitteam
+    global scheidsLijst
 
-    thuis_teams_lijst = []
-    uit_teams_lijst = []
-    for club in clubs:
-        if club.get_clubnaam() in thuisteam:
-            thuis_teams_lijst = club.get_superteams()[thuisteam]
+    if algoritme != '':
+        thuis_teams_lijst = []
+        uit_teams_lijst = []
+        for club in clubs:
+            if club.get_clubnaam() in thuisteam:
+                thuis_teams_lijst = club.get_superteams()[thuisteam]
 
-        if club.get_clubnaam() in uitteam:
-            uit_teams_lijst = club.get_superteams()[uitteam]
+            if club.get_clubnaam() in uitteam:
+                uit_teams_lijst = club.get_superteams()[uitteam]
 
-    thuis_scores_df = get_team_score(thuis_teams_lijst, uit_teams_lijst)
-    uit_scores_df = get_team_score(uit_teams_lijst, thuis_teams_lijst)
+        thuis_scores_df = get_team_score(thuis_teams_lijst, uit_teams_lijst)
+        uit_scores_df = get_team_score(uit_teams_lijst, thuis_teams_lijst)
 
-    get_team_history(uit_teams_lijst)
-    AlgoritmeDecisionTree(thuis_scores_df, scheids1, scheids2).run()
+        # get_team_history(uit_teams_lijst)
+        if algoritme == 'dt':
+            thuis_predict = AlgoritmeDecisionTree(thuis_scores_df, scheids1, scheids2, locatie, scheidsLijst).run()
+            uit_predict = AlgoritmeDecisionTree(uit_scores_df, scheids1, scheids2, locatie, scheidsLijst).run()
+        elif algoritme == 'mlr':
+            thuis_predict = AlgoritmeMLR(thuis_scores_df, scheids1, scheids2).run()
+            uit_predict = AlgoritmeMLR(uit_scores_df, scheids1, scheids2).run()
+        elif algoritme == 'lr':
+            thuis_predict = AlgoritmeLinRegress(thuis_scores_df).run()
+            uit_predict = AlgoritmeLinRegress(uit_scores_df).run()
 
-    thuis_predict = AlgoritmeLinRegress(thuis_scores_df).run()
-    uit_predict = AlgoritmeLinRegress(uit_scores_df).run()
-    uitslag_score = '%.f - %.f' % (thuis_predict, uit_predict)
-    uitslag = "{}".format(uitslag_score)
-    uitslag2["text"] = uitslag
+        uitslag_score = '%.f - %.f' % (thuis_predict, uit_predict)
+        uitslag = "{}".format(uitslag_score)
+        uitslag2["text"] = uitslag
+    else:
+        messagebox.showwarning('Selecteer alle velden', 'Vul alle velden in om verder te gaan')
+
+
 
 # ------------------------------------------------------------------------------------------------------------------#
 # Achtergrond #
@@ -113,9 +182,8 @@ HUKnop.bind("<Button-1>", lambda e: openWebsite("https://www.hu.nl/"))
 # optie menu's' #
 clubs = create_club_objects(get_clubnames())
 teamLijst = create_superteams_list(clubs)
-scheidsLijst = get_scheidsrechters()
-locatieLijst = ["a", "b", "c"]
-algoritmeLijst = ["a", "b", "c"]
+# scheidsLijst = get_scheidsrechters(thuisteam, uitteam)
+algoritmeLijst = ['dt', 'mlr', 'lr']
 
 variableThuisTeam = StringVar(frame1)
 variableThuisTeam.set("Thuis team")
@@ -129,27 +197,9 @@ optiesUitTeam = OptionMenu(frame1, variableUitTeam, *teamLijst, command=set_uitt
 optiesUitTeam.config(font=("Britannic bold", 25), bg="#f5faff", fg="#004080")
 optiesUitTeam.place(x=280, y=20, height=70, width=245)
 
-variableScheids1= StringVar(frame1)
-variableScheids1.set("Scheidsrechter 1")
-optiesScheids1 = OptionMenu(frame1, variableScheids1, *scheidsLijst, command=set_scheids1)
-optiesScheids1.config(font=("Britannic bold", 18), bg="#f5faff", fg="#004080")
-optiesScheids1.place(x=10, y=100, height=60, width=245)
-
-variableScheids2= StringVar(frame1)
-variableScheids2.set("Scheidsrechter 2")
-optiesScheids2 = OptionMenu(frame1, variableScheids2, *scheidsLijst, command=set_scheids2)
-optiesScheids2.config(font=("Britannic bold", 18), bg="#f5faff", fg="#004080")
-optiesScheids2.place(x=280, y=100, height=60, width=245)
-
-variableLocatie= StringVar(frame1)
-variableLocatie.set("Locatie")
-optiesLocatie = OptionMenu(frame1, variableLocatie, *locatieLijst, command=set_scheids2)
-optiesLocatie.config(font=("Britannic bold", 15), bg="#f5faff", fg="#004080")
-optiesLocatie.place(x=385, y=170, height=50, width=140)
-
 variableAlgoritme= StringVar(frame1)
 variableAlgoritme.set("Algoritme")
-optiesAlgoritme = OptionMenu(frame1, variableAlgoritme, *algoritmeLijst, command=set_scheids2)
+optiesAlgoritme = OptionMenu(frame1, variableAlgoritme, *algoritmeLijst, command=set_algoritme)
 optiesAlgoritme.config(font=("Britannic bold", 15), bg="#f5faff", fg="#004080")
 optiesAlgoritme.place(x=10, y=170, height=50, width=140)
 # ------------------------------------------------------------------------------------------------------------------#
