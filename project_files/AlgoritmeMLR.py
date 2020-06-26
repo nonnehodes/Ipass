@@ -1,9 +1,6 @@
-from collections import defaultdict
-
 from scipy import polyval
 from matplotlib.pyplot import plot, title, show, legend
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 import pandas as pd
 
 
@@ -58,11 +55,11 @@ class AlgoritmeMLR():
             y_temp.append(sum(temp))
         y_mlr = [a + x for x in y_temp]
 
-        title('Linear Regression Example')
-        plot(x_axis, y, 'k.')
-        plot(x_axis, y_mlr, 'r--')
-        legend(['Scores', 'MLR'])
-        show()
+        # title('Linear Regression Example')
+        # plot(x_axis, y, 'k.')
+        # plot(x_axis, y_mlr, 'r--')
+        # legend(['Scores', 'MLR'])
+        # show()
 
         rmse = 0
         for i in range(n):
@@ -94,5 +91,5 @@ class AlgoritmeMLR():
         df.to_csv('mlr.csv')
         return df
 
-AlgoritmeMLR(pd.read_csv('output.csv'), '7d44fdb4cd369049c23112395b915226', 'f8cd5ba4b8d3c0dade7c079fd87a3c3b').run()
+# AlgoritmeMLR(pd.read_csv('output.csv'), '7d44fdb4cd369049c23112395b915226', 'f8cd5ba4b8d3c0dade7c079fd87a3c3b').run()
 # https://scipy-cookbook.readthedocs.io/items/LinearRegression.html
