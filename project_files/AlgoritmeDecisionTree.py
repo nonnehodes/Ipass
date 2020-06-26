@@ -40,7 +40,7 @@ class AlgoritmeDecisionTree:
         # eval = cross_val_score(model, X, Y, cv=5, scoring='neg_mean_squared_error')
         # print(eval)
         # print('\n')
-
+        #
         # pd.DataFrame(X_test).to_csv('../notebook/prediction.csv')
         # plt.figure()
         # plt.scatter(X['index'], Y, s=20, edgecolor="black",
@@ -53,7 +53,7 @@ class AlgoritmeDecisionTree:
 
 
         prediction = model.predict(self.create_prediction_array(X, features))
-        print('prediction = {}'.format(prediction))
+        # print('prediction = {}'.format(prediction))
         return prediction
 
 
@@ -67,9 +67,9 @@ class AlgoritmeDecisionTree:
                     if self.scheids1 in x:
                         col = x
                 new_row[col] = 1
-            elif feature == 'scheids1':
+            elif feature == 'scheids2':
                 for x in X.columns:
-                    if self.scheids1 in x:
+                    if self.scheids2 in x:
                         col = x
                 new_row[col] = 1
             elif feature == 'locatie':

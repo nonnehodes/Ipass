@@ -38,13 +38,13 @@ class AlgoritmeLinRegress():
         # legend(['linregress', 'scores'])
         # show()
 
-        rmse = 0
-        for i in range(n):
-            g = a + b * X[i]
-            rmse += (Y[i] - g) ** 2
-
-        rmse = np.sqrt(rmse / n)
-        print("LR rmse: {}".format(rmse))
+        # rmse = 0
+        # for i in range(n):
+        #     g = a + b * X[i]
+        #     rmse += (Y[i] - g) ** 2
+        #
+        # rmse = np.sqrt(rmse / n)
+        # print("LR rmse: {}".format(rmse))
 
         return a + b * (n + 1)
 

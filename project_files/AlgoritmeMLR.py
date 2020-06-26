@@ -39,7 +39,7 @@ class AlgoritmeMLR():
                 bottom += (X[col][i] - x_mean) ** 2
             b = top / bottom
             all_coeffs[j] = [b, b * x_mean]
-        print('all coeffs: {}'.format(all_coeffs))
+        # print('all coeffs: {}'.format(all_coeffs))
 
         total = 0
         for item in all_coeffs.values():
@@ -60,13 +60,13 @@ class AlgoritmeMLR():
         # plot(x_axis, y_mlr, 'r--')
         # legend(['Scores', 'MLR'])
         # show()
-
-        rmse = 0
-        for i in range(n):
-            rmse += (y[i] - y_mlr[i]) ** 2
-
-        rmse = np.sqrt(rmse / n)
-        print("MLR rmse: {}".format(rmse))
+        #
+        # rmse = 0
+        # for i in range(n):
+        #     rmse += (y[i] - y_mlr[i]) ** 2
+        #
+        # rmse = np.sqrt(rmse / n)
+        # print("MLR rmse: {}".format(rmse))
 
         p = self.create_prediction_array(X, features)
         for j, col in enumerate(p.columns):
@@ -82,10 +82,14 @@ class AlgoritmeMLR():
             if feature == 'index':
                 new_row[feature] = self.aantal_wedstrijden + 1
             elif feature == 'scheids1':
-                col = 'scheids1_' + self.scheids1
+                for x in X.columns:
+                    if self.scheids1 in x:
+                        col = x
                 new_row[col] = 1
             elif feature == 'scheids2':
-                col = 'scheids2_' + self.scheids2
+                for x in X.columns:
+                    if self.scheids2 in x:
+                        col = x
                 new_row[col] = 1
         df = X.drop(X.index).append(new_row, ignore_index=True).fillna(0)
         df.to_csv('mlr.csv')
