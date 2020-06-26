@@ -31,9 +31,9 @@ class AlgorithmMLR():
 
         features = ['index']
         if self.ref1:
-            features.append('scheids1')
+            features.append('ref1')
         if self.ref2:
-            features.append('scheids2')
+            features.append('ref2')
 
         X = data[features].sort_values(by='index', ascending=True).reset_index(drop=True)
         string_cols = [col for col, dt in X.dtypes.items() if dt == object]
@@ -71,13 +71,12 @@ class AlgorithmMLR():
         # plot(x_axis, y_mlr, 'r--')
         # legend(['Scores', 'MLR'])
         # show()
-
-        rmse = 0
-        for i in range(n):
-            rmse += (y[i] - y_mlr[i]) ** 2
-
-        rmse = np.sqrt(rmse / n)
-        print("MLR rmse: {}".format(rmse))
+        # rmse = 0
+        # for i in range(n):
+        #     rmse += (y[i] - y_mlr[i]) ** 2
+        #
+        # rmse = np.sqrt(rmse / n)
+        # print("MLR rmse: {}".format(rmse))
 
         p = self.create_prediction_array(X, features)
         for j, col in enumerate(p.columns):
@@ -92,12 +91,12 @@ class AlgorithmMLR():
         for feature in features:
             if feature == 'index':
                 new_row[feature] = self.total_games + 1
-            elif feature == 'scheids1':
+            elif feature == 'ref1':
                 for x in X.columns:
                     if self.ref1 in x:
                         col = x
                 new_row[col] = 1
-            elif feature == 'scheids2':
+            elif feature == 'ref2':
                 for x in X.columns:
                     if self.ref2 in x:
                         col = x

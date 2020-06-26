@@ -5,8 +5,6 @@ from sklearn.model_selection import train_test_split, cross_val_predict, cross_v
 
 class AlgorithmDecisionTree:
     def __init__(self, team_scores_df, ref1=None, ref2=None, location=None):
-        self.scores = team_scores_df.score
-        self.target_team = team_scores_df.team[0]
         self.total_games = len(team_scores_df)
         self.df = team_scores_df
         self.ref1 = ref1
@@ -29,11 +27,11 @@ class AlgorithmDecisionTree:
         data = self.df
         features = ['index']
         if self.ref1:
-            features.append('scheids1')
+            features.append('ref1')
         if self.ref2:
-            features.append('scheids2')
+            features.append('ref2')
         if self.location:
-            features.append('locatie')
+            features.append('location')
 
         X = data[features].sort_values(by='index', ascending=True).reset_index(drop=True)
         string_cols = [col for col, dt in X.dtypes.items() if dt == object]

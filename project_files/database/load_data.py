@@ -52,31 +52,31 @@ def get_team_score(target_teams, tegenstanders):
 
             for item in thuis_score:
                 scores = {}
-                scores['datum'] = item[0]
+                scores['date'] = item[0]
                 scores['team'] = item[1]
-                scores['uit_thuis'] = 'thuis'
+                scores['home_away'] = 'home'
                 scores['score'] = item[2]
-                scores['scheids1'] = item[3]
-                scores['scheids2'] = item[4]
-                scores['locatie'] = item[5]
+                scores['ref1'] = item[3]
+                scores['ref2'] = item[4]
+                scores['location'] = item[5]
                 output.append(scores)
 
             cur.execute("""SELECT datum, uitteam, uitscore, scheids1_hashed, scheids2_hashed, plaats_sporthal FROM dames_competitie WHERE thuisteam=? AND uitteam=?""", (tegenstander, target_team))
             uit_score = cur.fetchall()
             for item in uit_score:
                 scores = {}
-                scores['datum'] = item[0]
+                scores['date'] = item[0]
                 scores['team'] = item[1]
-                scores['uit_thuis'] = 'uit'
+                scores['home_away'] = 'away'
                 scores['score'] = item[2]
-                scores['scheids1'] = item[3]
-                scores['scheids2'] = item[4]
-                scores['locatie'] = item[5]
+                scores['ref1'] = item[3]
+                scores['ref2'] = item[4]
+                scores['location'] = item[5]
                 output.append(scores)
 
     df = pd.DataFrame(output)
-    df['datum'] = pd.to_datetime(df.datum)
-    df = df.sort_values(by='datum').reset_index()
+    df['date'] = pd.to_datetime(df.datum)
+    df = df.sort_values(by='date').reset_index()
     return df
 
 def get_team_names_voor_2011(clubnaam):
