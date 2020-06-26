@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-class AlgoritmeMLR():
+class AlgorithmMLR():
     def __init__(self, team_scores_df, scheids1=None, scheids2=None):
         self.target_team = team_scores_df.team[0]
         self.aantal_wedstrijden = len(team_scores_df)

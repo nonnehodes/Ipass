@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_predict, cross_val_score
 
-class AlgoritmeDecisionTree:
+class AlgorithmDecisionTree:
     def __init__(self, team_scores_df, scheids1=None, scheids2=None, locatie=None):
         self.scores = team_scores_df.score
         self.target_team = team_scores_df.team[0]
@@ -15,7 +15,6 @@ class AlgoritmeDecisionTree:
 
     def run(self):
         data = self.df
-        data.to_csv('dataframe.csv')
         features = ['index']
         if self.scheids1:
             features.append('scheids1')
@@ -76,7 +75,6 @@ class AlgoritmeDecisionTree:
                 col = 'locatie_' + self.locatie
                 new_row[col] = 1
         df = X.drop(X.index).append(new_row, ignore_index=True).fillna(0)
-        df.to_csv('predictrow.csv')
         return df
 
 

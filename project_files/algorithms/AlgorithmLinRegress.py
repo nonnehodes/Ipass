@@ -4,7 +4,7 @@ import numpy as np
 
 
 
-class AlgoritmeLinRegress():
+class AlgorithmLinRegress():
     def __init__(self, team_scores_df):
         self.target_team = team_scores_df.team[0]
         self.aantal_wedstrijden = len(team_scores_df)
