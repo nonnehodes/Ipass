@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_predict, cross_val_score
 
 class AlgoritmeDecisionTree:
-    def __init__(self, team_scores_df, scheids1=None, scheids2=None, locatie=None, l=None):
+    def __init__(self, team_scores_df, scheids1=None, scheids2=None, locatie=None):
         self.scores = team_scores_df.score
         self.target_team = team_scores_df.team[0]
         self.aantal_wedstrijden = len(team_scores_df)
@@ -12,7 +12,6 @@ class AlgoritmeDecisionTree:
         self.scheids1 = scheids1
         self.scheids2 = scheids2
         self.locatie = locatie
-        self.l = l
 
     def run(self):
         data = self.df

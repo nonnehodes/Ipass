@@ -17,7 +17,6 @@ scheids1 = ''
 scheids2 = ''
 algoritme = ''
 locatie = ''
-scheidsLijst = []
 # ------------------------------------------------------------------------------------------------------------------#
 # kleine functies #
 
@@ -37,7 +36,6 @@ def set_uittteam(value):
 
 
 def build_scheidsrechters_dropdown(thuisteam, uitteam):
-    global scheidsLijst
     scheidsLijst = []
     if thuisteam != '' and uitteam != '':
         for club in clubs:
@@ -112,8 +110,8 @@ def predictScores():
         uit_scores_df = get_team_score(uit_teams_lijst, thuis_teams_lijst)
 
         if algoritme == 'DecisionTree':
-            thuis_predict = AlgoritmeDecisionTree(thuis_scores_df, scheids1, scheids2, locatie, scheidsLijst).run()
-            uit_predict = AlgoritmeDecisionTree(uit_scores_df, scheids1, scheids2, locatie, scheidsLijst).run()
+            thuis_predict = AlgoritmeDecisionTree(thuis_scores_df, scheids1, scheids2, locatie).run()
+            uit_predict = AlgoritmeDecisionTree(uit_scores_df, scheids1, scheids2, locatie).run()
         elif algoritme == 'MultipleLR':
             thuis_predict = AlgoritmeMLR(thuis_scores_df, scheids1, scheids2).run()
             uit_predict = AlgoritmeMLR(uit_scores_df, scheids1, scheids2).run()
